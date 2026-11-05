@@ -3,11 +3,7 @@ const Desktop = {
   query: '',
   folder: 'inbox',   // inbox | starred | snoozed | sent | drafts | label:<name>
 
-  matches(email) {
-    const q = Desktop.query.trim().toLowerCase();
-    if (!q) return true;
-    return [email.from, email.org, email.subject, email.body].some((t) => (t || '').toLowerCase().includes(q));
-  },
+  matches(email) { return Domain.matches(email, Desktop.query); },
 
   /* ---------- small builders ---------- */
   star(email) {

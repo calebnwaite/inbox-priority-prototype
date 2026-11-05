@@ -1,0 +1,19 @@
+/* Real phones (and phone-sized windows): the app fills the screen. No phone frame, no prototype bar,
+   dynamic viewport height and safe-area insets. Same query as Router.PHONE_QUERY. */
+@media (max-width: 600px), (pointer: coarse) and (max-height: 500px) {
+  html { overscroll-behavior-y: none; }
+  html, body { height: 100%; height: 100dvh; }
+  body[data-screen="mobile"] .proto-bar { display: none; }
+  #screen-mobile { padding: 0; background: #fff; overflow: hidden; }
+  .phone-frame { max-height: none; width: 100%; height: 100%; }
+  .phone { width: 100%; height: 100%; min-height: 0; border: none; border-radius: 0; box-shadow: none; }
+  .status-bar { display: none; }
+  .phone-screen { padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left); }
+
+  /* Gmail-style snackbar above the bottom bar */
+  body[data-screen="mobile"] #toast-host { top: auto; bottom: calc(96px + env(safe-area-inset-bottom)); left: 8px; right: 8px; transform: none; align-items: stretch; }
+  body[data-screen="mobile"] .toast { max-width: none; background: #313033; border-radius: 8px; text-align: left; box-shadow: 0 3px 6px rgba(0, 0, 0, .2); }
+  body[data-screen="mobile"] .tour-card .btn { min-height: 44px; }
+}
+/* the tour highlight moves without animating its box (no layout animation) */
+body[data-screen="mobile"] .tour-hole { transition: none; }

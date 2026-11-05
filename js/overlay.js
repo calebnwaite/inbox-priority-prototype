@@ -9,8 +9,11 @@ const Overlay = {
     if (!host) { U.fail('Could not open that panel.', new Error('overlay host missing')); return; }
     Overlay.close(false);
     Overlay.onClose = onClose;
-    host.innerHTML = `<div class="overlay-backdrop" data-act="overlay-backdrop"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;
+    const bottomSheet = host.id === 'phone-overlay';
+    const handle = bottomSheet ? '<div class="sheet-grabber" aria-hidden="true"><span></span></div>' : '';
+    host.innerHTML = `<div class="overlay-backdrop" data-act="overlay-backdrop"><div class="sheet" role="dialog" aria-modal="true">${handle}${html}</div></div>`;
     host.classList.add('open');
+    if (bottomSheet) SheetDrag.attach(U.$('.sheet', host), () => Overlay.close());
     const focusable = U.$('textarea, button.btn-primary', host);
     if (focusable) focusable.focus({ preventScroll: true });
   },

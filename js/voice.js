@@ -1,13 +1,14 @@
 /* Voice: animated waveform, text-to-speech, dictation. Uses real browser APIs when allowed, otherwise a simulation. */
 const Waveform = {
   html(bars = 28) { return `<div class="waveform" aria-hidden="true">${'<i></i>'.repeat(bars)}</div>`; },
-  /** Animate the bars inside root; returns a stop function. */
+  /** Animate the bars inside root (transform only, so no layout); returns a stop function. Bars are 48px tall at scale 1. */
   animate(root, level = 1) {
     const bars = U.$$('.waveform i', root);
     const timer = setInterval(() => bars.forEach((bar, i) => {
-      bar.style.height = `${8 + Math.abs(Math.sin(Date.now() / 160 + i)) * 40 * level * (0.4 + Math.random() * 0.6)}px`;
+      const height = 8 + Math.abs(Math.sin(Date.now() / 160 + i)) * 40 * level * (0.4 + Math.random() * 0.6);
+      bar.style.transform = `scaleY(${Math.min(1, height / 48).toFixed(3)})`;
     }), 90);
-    return () => { clearInterval(timer); bars.forEach((bar) => { bar.style.height = ''; }); };
+    return () => { clearInterval(timer); bars.forEach((bar) => { bar.style.transform = ''; }); };
   },
 };
 

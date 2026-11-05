@@ -13,6 +13,13 @@ const Domain = {
     return DATA.emails.filter((e) => !s.priority.includes(e.id) || s.handled[e.id]).filter((e) => s.handled[e.id]?.type !== 'trashed').map((e) => e.id);
   },
 
+  /** Search: sender, company, subject or body contains the query (case-insensitive). */
+  matches(email, query) {
+    const q = String(query || '').trim().toLowerCase();
+    if (!q) return true;
+    return [email.from, email.org, email.subject, email.body].some((t) => (t || '').toLowerCase().includes(q));
+  },
+
   snippet(email, max = 110) {
     const text = email.body.replace(/^(Jeff|Hi Jeff|Good morning Jeff),?\s*/i, '').replace(/\s+/g, ' ');
     if (text.length <= max) return text;

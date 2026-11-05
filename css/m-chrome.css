@@ -1,0 +1,55 @@
+/* Gmail phone chrome: top app bar, "Search in mail" pill, bottom navigation bar, drawer, extended Compose FAB.
+   Motion uses transform/opacity (and clip-path for the FAB) only. */
+
+/* top app bar */
+.m-head { display: flex; align-items: center; gap: 4px; min-height: 64px; padding: 8px 8px 8px 4px; flex: none; background: var(--g-surface); }
+.m-head-text { flex: 1; min-width: 0; padding-left: 4px; }
+.m-head h1 { font-size: 22px; font-weight: 400; line-height: 28px; color: var(--g-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m-head .eyebrow { font-size: 11px; letter-spacing: .08em; line-height: 14px; }
+.m-head .pill, .m-head .count-pill { margin-right: 8px; }
+.m-icon-btn { width: 48px; height: 48px; flex: none; border: none; background: transparent; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--g-text-2); padding: 0; }
+.m-icon-btn:active, .m-nav-item:active .m-nav-pill, .m-drawer-item:active, .m-sheet-item:active { background: rgba(68, 71, 70, .12); }
+
+/* search pill */
+.m-top { flex: none; padding: 8px 16px 6px; background: var(--g-surface); }
+.m-searchbar { display: flex; align-items: center; gap: 2px; height: 56px; border-radius: 28px; background: var(--g-search); padding: 0 6px 0 4px; }
+.m-search-input { flex: 1; min-width: 0; height: 48px; border: none; background: transparent; outline: none; font: inherit; font-size: 16px; color: var(--g-text); padding: 0 6px; }
+.m-search-input::placeholder { color: var(--g-text-2); opacity: 1; }
+.m-account { width: 44px; height: 44px; padding: 6px; flex: none; border: none; border-radius: 50%; background-clip: content-box; color: #fff; font-size: 15px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; }
+.m-head .m-account { margin-right: 4px; }
+
+/* bottom navigation bar */
+.tabbar { flex: none; display: flex; background: var(--g-bg); padding: 10px 0 calc(14px + env(safe-area-inset-bottom)); }
+.m-nav-item { flex: 1; min-width: 0; min-height: 56px; border: none; background: none; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--g-text-2); }
+.m-nav-pill { position: relative; width: 64px; height: 32px; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+.m-nav-item.active .m-nav-pill { background: var(--g-blue-soft); color: var(--g-blue-ink); }
+.m-nav-label { font-size: 12px; font-weight: 500; line-height: 16px; }
+.m-nav-item.active .m-nav-label { font-weight: 700; color: var(--g-text); }
+.m-nav-badge { position: absolute; top: -3px; left: 36px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--g-red); color: #fff; font-size: 11px; font-weight: 700; line-height: 16px; text-align: center; }
+
+/* drawer: transform slide + scrim fade; hidden from taps and screen readers when closed */
+.m-drawer { position: absolute; inset: 0; z-index: 90; pointer-events: none; visibility: hidden; transition: visibility 0s linear .25s; }
+.m-drawer.open { pointer-events: auto; visibility: visible; transition: none; }
+.m-drawer-scrim { position: absolute; inset: 0; background: rgba(0, 0, 0, .32); opacity: 0; transition: opacity .25s; }
+.m-drawer.open .m-drawer-scrim { opacity: 1; }
+.m-drawer-panel { position: absolute; top: 0; bottom: 0; left: 0; width: min(320px, 85%); background: var(--g-bg); border-radius: 0 16px 16px 0; padding: calc(8px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom)); overflow-y: auto; overscroll-behavior: contain; transform: translate3d(-100%, 0, 0); transition: transform .25s cubic-bezier(.2, 0, 0, 1); }
+.m-drawer.open .m-drawer-panel { transform: none; }
+.m-drawer-brand { display: flex; align-items: baseline; gap: 6px; font-size: 22px; color: var(--g-red); padding: 14px 16px 12px; }
+.m-drawer-brand small { font-size: 12px; color: var(--g-muted); }
+.m-brand-mark { font-size: 18px; }
+.m-drawer-title { font-size: 12px; font-weight: 600; color: var(--g-muted); padding: 10px 16px 6px; letter-spacing: .04em; text-transform: uppercase; }
+.m-drawer-item { display: flex; align-items: center; gap: 16px; width: 100%; min-height: 48px; border: none; background: none; border-radius: 24px; padding: 0 16px; font-size: 14px; font-weight: 500; color: var(--g-text-2); text-align: left; }
+.m-drawer-item span { flex: 1; min-width: 0; }
+.m-drawer-item.active { background: var(--g-blue-soft); color: var(--g-blue-ink); font-weight: 700; }
+.m-drawer-count { font-size: 12px; }
+.m-drawer hr { border: none; border-top: 1px solid var(--g-line); margin: 8px 16px; }
+
+/* screens with a FAB: the list ends above it, so at rest no row, star or chip sits under the button */
+.view-inbox .m-scroll, .view-todo .m-scroll { margin-bottom: 88px; }
+
+/* extended FAB: collapses to a round button on scroll down (transform + clip-path, no layout) */
+.m-fab-host { position: absolute; right: 16px; bottom: 16px; z-index: 5; pointer-events: none; filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, .3)) drop-shadow(0 3px 4px rgba(0, 0, 0, .15)); }
+.m-fab { pointer-events: auto; display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 20px 0 16px; border: none; border-radius: 16px; background: var(--g-compose); color: #001d35; font-size: 15px; font-weight: 500; clip-path: inset(0 0 0 0 round 16px); transition: transform .22s cubic-bezier(.2, 0, 0, 1), clip-path .22s cubic-bezier(.2, 0, 0, 1); }
+.m-fab-label { white-space: nowrap; transition: opacity .15s; }
+.m-fab.is-collapsed { transform: translateX(calc(100% - 56px)); clip-path: inset(0 calc(100% - 56px) 0 0 round 16px); }
+.m-fab.is-collapsed .m-fab-label { opacity: 0; }

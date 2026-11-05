@@ -40,6 +40,12 @@ const U = {
 const Actions = {
   handlers: {},
   register(map) { Object.assign(Actions.handlers, map); },
+  /** Run a registered action by name (menus that forward to another action). */
+  run(name, el, event) {
+    const handler = Actions.handlers[name];
+    if (!handler) { U.fail(`Unknown action "${name}".`); return; }
+    handler(el, event);
+  },
   install() {
     document.addEventListener('click', (event) => {
       const el = event.target.closest('[data-act]');

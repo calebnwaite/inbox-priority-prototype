@@ -17,7 +17,7 @@ Mobile.screens.summary = {
   render() {
     const sm = DATA.summary;
     const screen = Mobile.screens.summary;
-    return `${Mobile.header('Daily Summary', { eyebrow: 'MONDAY MORNING', back: 'mobile/more' })}
+    return `${Mobile.header('Daily Summary', { eyebrow: 'MONDAY MORNING' })}
       <div class="m-scroll" id="summary-scroll">
         <div class="field-label accent">Priority · in depth</div>
         ${sm.priority.map((p) => `<button class="summary-item" data-act="m-open-task" data-id="${p.emailId}"><b>${U.esc(p.who)}</b><span>${U.esc(p.text)}</span></button>`).join('')}

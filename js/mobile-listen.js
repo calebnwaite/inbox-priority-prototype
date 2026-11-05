@@ -16,10 +16,10 @@ Mobile.screens.listen = {
   render() {
     const screen = Mobile.screens.listen;
     const queue = screen.queue();
-    if (!queue.length) return `<div class="m-head"><div class="m-head-text"><div class="eyebrow">VOICE INBOX</div><h1>All caught up</h1></div></div><div class="m-scroll"><p class="muted">Nothing left to listen to.</p></div>`;
+    if (!queue.length) return `${Mobile.header('All caught up', { eyebrow: 'VOICE INBOX' })}<div class="m-scroll"><p class="muted">Nothing left to listen to.</p></div>`;
     screen.index = Math.min(screen.index, queue.length - 1);
     const email = Domain.email(queue[screen.index]);
-    return `<div class="m-head"><div class="m-head-text"><div class="eyebrow">VOICE INBOX</div></div><span class="count-pill">${screen.index + 1} of ${queue.length}</span></div>
+    return `${Mobile.header('Listen', { eyebrow: 'VOICE INBOX', right: `<span class="count-pill">${screen.index + 1} of ${queue.length}</span>` })}
       <div class="listen-body">
         <div class="muted-light">Now reading</div>
         <h1 class="listen-title">${U.esc(U.first(email.from))}: ${U.esc(email.headline || email.subject)}</h1>

@@ -1,0 +1,89 @@
+/* Gmail look for the phone app: palette, type and touch-sized controls. Everything is scoped to #screen-mobile,
+   so the desktop screen is untouched. :where() keeps specificity low so variant classes still win. */
+#screen-mobile {
+  --g-font: "Google Sans", Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --g-text: #1f1f1f;
+  --g-text-2: #444746;
+  --g-muted: #5e5e5e;
+  --g-surface: #fff;
+  --g-bg: #f6f8fc;
+  --g-search: #e9eef6;
+  --g-line: #e1e3e1;
+  --g-outline: #c4c7c5;
+  --g-blue: #0b57d0;
+  --g-blue-soft: #d3e3fd;
+  --g-blue-tint: #e8f0fe;
+  --g-blue-ink: #041e49;
+  --g-compose: #c2e7ff;
+  --g-red: #d93025;
+  --g-red-strong: #ea4335;
+  --g-red-soft: #fce8e6;
+  --g-green: #146c2e;
+  --g-green-soft: #c4eed0;
+  --g-star: #f2b600;
+  /* re-point the shared tokens so every phone screen picks up the Gmail palette */
+  --accent: var(--g-red);
+  --accent-dark: #b3261e;
+  --accent-soft: var(--g-red-soft);
+  --ink: var(--g-text);
+  --ink-2: var(--g-text-2);
+  --muted: var(--g-muted);
+  --line: var(--g-line);
+  --ok: var(--g-green);
+  --ok-soft: #e6f4ea;
+  --font: var(--g-font);
+  font-family: var(--g-font);
+  color: var(--g-text);
+  -webkit-tap-highlight-color: transparent;
+}
+#screen-mobile button, #screen-mobile a { touch-action: manipulation; }
+.m-icon { fill: currentColor; flex: none; display: block; }
+
+/* buttons: Material 3 pills, at least 44px tall */
+:where(#screen-mobile) .btn { min-height: 44px; border-radius: 999px; padding: 10px 18px; font-size: 14px; font-weight: 500; letter-spacing: .01em; }
+:where(#screen-mobile) .btn:where(:not([class*="btn-"])) { border-color: var(--g-outline); }
+:where(#screen-mobile) .btn-small { padding: 8px 14px; font-size: 13.5px; }
+:where(#screen-mobile) .btn.big { min-height: 52px; border-radius: 999px; font-size: 15px; }
+:where(#screen-mobile) .btn-primary { background: var(--g-blue); border-color: var(--g-blue); color: #fff; }
+:where(#screen-mobile) .btn-primary:hover { background: #0842a0; }
+:where(#screen-mobile) .btn-accent { background: var(--g-red); border-color: var(--g-red); color: #fff; }
+:where(#screen-mobile) .btn-tonal { background: var(--g-blue-soft); border-color: transparent; color: var(--g-blue-ink); }
+:where(#screen-mobile) .btn-ghost { border-color: transparent; color: var(--g-blue); }
+:where(#screen-mobile) .btn-danger { background: var(--g-red); border-color: var(--g-red); color: #fff; }
+:where(#screen-mobile) .btn-ok { background: var(--g-green-soft); border-color: transparent; color: #072711; }
+:where(#screen-mobile) .btn-call { background: var(--g-green-soft); border-color: transparent; color: #072711; }
+:where(#screen-mobile) .icon-btn { width: 44px; height: 44px; }
+:where(#screen-mobile) :is(.chip, .pill-btn, .day-tab, .link-btn) { min-height: 44px; }
+:where(#screen-mobile) .chip { border-radius: 8px; border-color: var(--g-outline); font-size: 14px; }
+:where(#screen-mobile) .pill-btn { padding: 8px 16px; font-size: 13.5px; border-color: var(--g-outline); }
+
+/* text inputs: 16px or more so iOS does not zoom the page on focus */
+#screen-mobile :is(input, select, textarea) { font-size: 16px; }
+:where(#screen-mobile) :is(.remind-custom select, .remind-custom input) { min-height: 44px; }
+:where(#screen-mobile) .check-row { min-height: 44px; align-items: center; }
+:where(#screen-mobile) .check-row input { width: 20px; height: 20px; flex: none; }
+
+/* older phone screens, Gmail-coloured */
+:where(#screen-mobile) .eyebrow { color: var(--g-muted); font-weight: 600; }
+:where(#screen-mobile) .field-label { color: var(--g-text-2); letter-spacing: .04em; font-weight: 600; }
+:where(#screen-mobile) .field-label.accent { color: var(--g-red); }
+:where(#screen-mobile) .pill { font-weight: 500; }
+:where(#screen-mobile) .day-tab.active { background: var(--g-blue-soft); color: var(--g-blue-ink); }
+:where(#screen-mobile) .bubble.me { background: var(--g-blue); }
+:where(#screen-mobile) .bubble.ai { background: var(--g-bg); }
+:where(#screen-mobile) .send-btn { background: var(--g-blue); }
+:where(#screen-mobile) .chat-form input:focus { border-color: var(--g-blue); }
+:where(#screen-mobile) .meter span { transition: none; }
+:where(#screen-mobile) .why, :where(#screen-mobile) .workload-note { background: var(--g-blue-tint); color: var(--g-blue-ink); }
+:where(#screen-mobile) .pref-prompt { background: var(--g-blue-tint); border-color: transparent; }
+:where(#screen-mobile) :is(.event-card, .summary-item, .stat-card, .swipe-card) { border-radius: 16px; }
+:where(#screen-mobile) .swipe-card { touch-action: none; }
+
+/* Listen: dark, Gmail dark-theme greys */
+.phone-screen.dark { background: #1f1f1f; color: #e3e3e3; }
+.phone-screen.dark .m-head { background: transparent; }
+.phone-screen.dark :is(.m-icon-btn, .m-head h1) { color: #e3e3e3; }
+#phone-screen.dark ~ #phone-tabbar { background: #2a2a2a; }
+#phone-screen.dark ~ #phone-tabbar .m-nav-item { color: #c4c7c5; }
+#phone-screen.dark ~ #phone-tabbar .m-nav-item.active .m-nav-pill { background: #004a77; color: #c2e7ff; }
+#phone-screen.dark ~ #phone-tabbar .m-nav-item.active .m-nav-label { color: #e3e3e3; }

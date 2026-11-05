@@ -8,17 +8,22 @@ const Tour = {
       { sel: '#mode-switch', title: 'Week one vs. week two', text: 'In week one the assistant only watches. Flip this to see how it behaves, or use "Skip to week 2".' },
       { sel: '#proto-nav .phone-link', title: 'Try the phone', text: 'Reminders you set here show up on the phone to-do. Open the phone view next.' },
     ],
-    today: [
+    inbox: [
+      { sel: '[data-tour="m-priority"]', title: 'Priority, in your inbox', text: 'The emails that need you sit on top, ranked 1 to 4. Everything else stays below, as usual.' },
+      { sel: '[data-tour="m-suggest"]', title: 'Suggested next move', text: 'Tap it to see the suggestion: review a drafted reply, forward, remind or reply by voice. Nothing is sent until you approve it.' },
+      { sel: '#phone-tabbar', title: 'More ways to work', text: 'Your to-do list, swipe sorting and the voice inbox. The menu (top left) has every other screen.' },
+    ],
+    todo: [
       { sel: '[data-tour="m-list"]', title: 'Your to-do for today', text: 'Tap the circle to check something off. It updates on your desktop too. Tap a card to open it.' },
       { sel: '[data-tour="m-record"]', title: 'Record a reply', text: 'Speak your reply. You will see the written draft and approve it before it is sent.' },
-      { sel: '#phone-tabbar', title: 'More ways to work', text: 'Sort with swipes, listen to your email, see your day, and more.' },
+      { sel: '#phone-tabbar', title: 'More ways to work', text: 'Sort with swipes, listen to your email, and the menu for everything else.' },
     ],
     task: [
       { sel: '.email-card', title: 'The email', text: 'Read it here. Calls and replies are one tap away.' },
       { sel: '[data-tour="m-voice"]', title: 'Reply by voice', text: 'Tap Voice reply, speak, and approve the draft.' },
     ],
     generic: [
-      { sel: '#phone-tabbar', title: 'Switch screens', text: 'Use the tabs or the More tab to try every screen. Reset demo restores the sample data.' },
+      { sel: '#phone-tabbar', title: 'Switch screens', text: 'Use the tabs, or the menu (top left) for every screen. Reset demo is in the menu too.' },
     ],
   },
 
@@ -28,7 +33,7 @@ const Tour = {
   keyForRoute() {
     const route = Router.current();
     if (route.screen === 'desktop') return 'desktop';
-    return Tour.steps[route.view || 'today'] ? route.view || 'today' : 'generic';
+    return Tour.steps[route.view || 'inbox'] ? route.view || 'inbox' : 'generic';
   },
 
   start(key = Tour.keyForRoute()) {

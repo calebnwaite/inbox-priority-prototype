@@ -2,7 +2,7 @@
 const App = {
   navKey(route) {
     if (route.screen === 'desktop') return 'desktop';
-    return !route.view || route.view === 'task' ? 'today' : route.view;
+    return !route.view || route.view === 'task' ? 'inbox' : route.view;
   },
 
   renderChrome(route) {
@@ -38,6 +38,9 @@ const App = {
     VoiceReply.install();
     Assistant.install();
     Desktop.install();
+    MobileChrome.install();
+    MobileDrawer.install();
+    SuggestSheet.install();
     Mobile.install();
     Object.values(Mobile.screens).forEach((screen) => screen.install?.());
     Tour.install();

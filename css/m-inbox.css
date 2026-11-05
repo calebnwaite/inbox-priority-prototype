@@ -1,0 +1,51 @@
+/* Gmail phone inbox list (Priority section + everything else) and the reading view. */
+.m-inbox { padding: 0 0 8px; background: var(--g-surface); }
+.m-section-head { display: flex; align-items: center; gap: 8px; padding: 12px 16px 4px; }
+.m-section-title { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--g-text-2); }
+.m-priority .m-section-title { color: var(--g-red); }
+.m-section-sub { flex: 1; min-width: 0; font-size: 12px; color: var(--g-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m-count { font-size: 12px; font-weight: 700; color: #fff; background: var(--g-red); border-radius: 999px; padding: 1px 8px; }
+.m-others { border-top: 8px solid var(--g-bg); }
+.m-notice { display: flex; gap: 10px; align-items: flex-start; margin: 8px 16px; padding: 12px 14px; border-radius: 16px; background: var(--g-blue-tint); color: var(--g-blue-ink); font-size: 14px; line-height: 1.4; }
+
+/* one email row: a full-row open button underneath, star and chips above it */
+.m-mail-row { position: relative; display: flex; gap: 16px; padding: 12px 16px 10px; }
+.m-row-open { position: absolute; inset: 0; width: 100%; border: none; background: transparent; padding: 0; }
+.m-row-open:active { background: rgba(31, 31, 31, .08); }
+.m-row-avatar { position: relative; flex: none; height: 40px; pointer-events: none; }
+.m-rank { position: absolute; right: -5px; bottom: -5px; width: 20px; height: 20px; border-radius: 50%; border: 2px solid #fff; background: var(--g-red); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.m-row-body { position: relative; flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; pointer-events: none; }
+.m-row-line { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.m-row-from { flex: 1; min-width: 0; font-size: 16px; line-height: 22px; color: var(--g-text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m-row-time { flex: none; font-size: 12px; color: var(--g-text-2); }
+.m-row-subject { font-size: 14px; line-height: 20px; color: var(--g-text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m-row-subject .pill { margin-left: 6px; font-size: 11px; padding: 1px 7px; vertical-align: 1px; }
+.m-row-snippet { flex: 1; min-width: 0; font-size: 14px; line-height: 20px; color: var(--g-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m-mail-row.unread :is(.m-row-from, .m-row-subject, .m-row-time) { font-weight: 700; color: var(--g-text); }
+.m-star { pointer-events: auto; flex: none; width: 44px; height: 44px; margin: -12px -12px -12px 0; border: none; background: none; border-radius: 50%; padding: 0; color: #747775; display: inline-flex; align-items: center; justify-content: center; }
+.m-star.on { color: var(--g-star); }
+.m-row-chips { display: flex; flex-wrap: wrap; column-gap: 8px; margin: 2px 0 -6px; pointer-events: auto; }
+.m-chip { min-height: 44px; min-width: 44px; border: none; background: none; padding: 0; display: inline-flex; align-items: center; }
+.m-chip-face { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px 0 8px; border-radius: 8px; border: 1px solid var(--g-outline); background: var(--g-surface); color: var(--g-text-2); font-size: 13px; font-weight: 500; white-space: nowrap; }
+.m-chip-suggest .m-chip-face { border-color: transparent; background: var(--g-blue-tint); color: var(--g-blue); }
+.m-chip:active .m-chip-face { background: var(--g-blue-soft); }
+
+/* reading view */
+.m-reading-bar { min-height: 56px; padding-top: 4px; padding-bottom: 4px; }
+.m-reading { padding: 0 16px 24px; }
+.m-reading-subject { display: flex; align-items: flex-start; gap: 4px; }
+.m-reading-subject h1 { flex: 1; min-width: 0; font-size: 22px; font-weight: 400; line-height: 28px; padding-top: 8px; overflow-wrap: anywhere; }
+.m-reading-subject .m-star { margin: 0 -10px 0 0; }
+.m-labels { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0 16px; }
+.m-reading-from { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; font-size: 14px; }
+.m-reading-who { flex: 1; min-width: 0; }
+.m-reading-who .muted { font-size: 12.5px; }
+.due-banner { display: flex; align-items: center; gap: 8px; background: var(--g-blue-tint); color: var(--g-blue-ink); border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; font-size: 14px; font-weight: 500; }
+.m-assist-card { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 18px; padding: 14px 16px; border-radius: 16px; background: var(--g-bg); font-size: 14px; }
+.m-assist-card .muted { line-height: 1.4; }
+.m-assist-card .btn { margin-top: 8px; }
+.m-assist-kicker { display: flex; align-items: center; gap: 6px; color: var(--g-red); font-size: 12px; font-weight: 600; letter-spacing: .02em; }
+.m-mail-body { color: var(--g-text); }
+.m-actions { flex: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); border-top: 1px solid var(--g-line); background: var(--g-surface); }
+.m-actions .btn { padding-left: 10px; padding-right: 10px; white-space: nowrap; }
+.m-actions .btn:last-child:nth-child(odd) { grid-column: 1 / -1; }

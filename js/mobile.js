@@ -1,46 +1,24 @@
-/* Mobile web app inside a phone frame. Core screens: Today to-do, email detail, More. Other screens register in Mobile.screens. */
+/* Gmail-style phone app (full screen on phones, inside a phone frame on laptops). Core: screen switching, the
+   app bar, the email reading view and More. Inbox, To-do and the other screens register in Mobile.screens. */
 const Mobile = {
   screens: {},
   active: null,
 
-  /** Which bottom tab is highlighted for each view. */
-  tabFor(view) {
-    if (!view || view === 'task') return 'today';
-    return ['sort', 'listen', 'day'].includes(view) ? view : 'more';
-  },
-
-  tabs: [['today', 'To-Do', '✓', 'mobile'], ['sort', 'Sort', '⇆', 'mobile/sort'], ['listen', 'Listen', '🎧', 'mobile/listen'], ['day', 'Day', '▦', 'mobile/day'], ['more', 'More', '⋯', 'mobile/more']],
-
+  /** Gmail-style top app bar: hamburger (or back arrow), title, optional right-hand content. */
   header(title, { back = null, eyebrow = '', right = '' } = {}) {
-    return `<div class="m-head">${back ? `<button class="icon-btn" data-act="m-back" data-to="${back}" aria-label="Back">←</button>` : ''}
+    const lead = back
+      ? `<button class="m-icon-btn" data-act="m-back" data-to="${back}" aria-label="Back">${Icon.svg('back')}</button>`
+      : MobileChrome.menuButton();
+    return `<div class="m-head">${lead}
       <div class="m-head-text">${eyebrow ? `<div class="eyebrow">${U.esc(eyebrow)}</div>` : ''}<h1>${U.esc(title)}</h1></div>${right}</div>`;
   },
 
-  taskCard(task) {
-    const email = Domain.email(task.emailId);
-    return `<div class="task-card${task.done ? ' done' : ''}">
-      <button class="check-btn${task.done ? ' on' : ''}" data-act="m-toggle-task" data-id="${task.emailId}" aria-label="${task.done ? 'Mark not done' : 'Mark done'}">${task.done ? '✓' : ''}</button>
-      <button class="task-main" data-act="m-open-task" data-id="${task.emailId}">
-        <b>${U.esc(task.title)}</b><span class="muted">${U.esc(task.sub || email.from)}</span>
-        ${task.due ? `<span class="due${task.reminder ? ' reminder' : ''}">${task.reminder ? '⏰ ' : ''}${U.esc(Domain.dueLabel(task.due))}</span>` : ''}
-      </button></div>`;
+  star(email) {
+    const on = Boolean(State.get().starred[email.id]);
+    return `<button class="m-star${on ? ' on' : ''}" data-act="toggle-star" data-id="${email.id}" aria-label="${on ? 'Unstar' : 'Star'}" aria-pressed="${on}">${Icon.svg(on ? 'starOn' : 'star', 20)}</button>`;
   },
 
-  today: {
-    render() {
-      const tasks = State.get().tasks;
-      const open = tasks.filter((t) => !t.done);
-      const done = tasks.filter((t) => t.done);
-      return `${Mobile.header('To-Do', { eyebrow: 'TODAY · MONDAY' })}
-        <div class="m-scroll">
-          <div class="muted m-sub" data-tour="m-count">${open.length ? `${open.length} thing${open.length === 1 ? '' : 's'} need you today` : 'All clear. Enjoy your evening.'}</div>
-          <div class="task-list" data-tour="m-list">${open.map(Mobile.taskCard).join('') || '<div class="empty">Nothing left. You are done for the day.</div>'}</div>
-          ${done.length ? `<div class="field-label">Done</div><div class="task-list">${done.map(Mobile.taskCard).join('')}</div>` : ''}
-        </div>
-        <div class="m-bottom-action"><button class="btn btn-primary wide big" data-act="m-record" data-tour="m-record">🎙 Record a reply</button></div>`;
-    },
-  },
-
+  /** Gmail-style reading view for one email, with the assistant's suggestion and the phone actions. */
   task: {
     render(route) {
       const email = Domain.email(route.id);
@@ -49,53 +27,55 @@ const Mobile = {
       const task = Domain.taskFor(email.id);
       const done = Boolean(task?.done || s.handled[email.id]);
       const live = Suggestions.live(email);
+      const rank = s.mode === 'active' ? Domain.priorityIds().indexOf(email.id) + 1 : 0;
       const paragraphs = email.body.split('\n\n').map((p) => `<p>${U.esc(p).replace(/\n/g, '<br>')}</p>`).join('');
-      return `${Mobile.header(task?.title || email.subject, { back: 'mobile' })}
-        <div class="m-scroll">
-          <div class="from-line">${U.avatar(email.from, 36)}<div><b>${U.esc(email.from)}</b><div class="muted">${U.esc(email.org)} · ${U.esc(email.time)}</div></div></div>
-          ${task?.due ? `<div class="due-banner">${task.reminder ? '⏰ Reminder' : 'Due'}: ${U.esc(Domain.dueLabel(task.due))}</div>` : ''}
-          ${live ? `<div class="suggest-banner small"><span class="spark">✦</span><div><b>${U.esc(email.suggest.label)}</b><div class="muted">${U.esc(email.suggest.why)}</div></div></div>` : ''}
-          <div class="field-label">EMAIL</div>
-          <div class="email-card">${paragraphs}</div>
+      return `<div class="m-head m-reading-bar">
+          <button class="m-icon-btn" data-act="m-back" data-to="mobile" aria-label="Back">${Icon.svg('back')}</button>
+          <span class="m-head-text"></span>
+          <button class="m-icon-btn" data-act="m-toggle-task" data-id="${email.id}" data-stay="1" aria-label="${done ? 'Move back to inbox (not done)' : 'Archive (mark done)'}">${Icon.svg('archive')}</button>
+          <button class="m-icon-btn" data-act="m-trash" data-id="${email.id}" aria-label="Delete">${Icon.svg('trash')}</button>
+        </div>
+        <div class="m-scroll m-reading">
+          <div class="m-reading-subject"><h1>${U.esc(email.subject)}</h1>${Mobile.star(email)}</div>
+          <div class="m-labels">${rank ? `<span class="label-chip accent">Priority #${rank}</span>` : ''}<span class="label-chip">Inbox</span>${Desktop.handledChip(email)}</div>
+          <div class="m-reading-from">${U.avatar(email.from, 40)}
+            <div class="m-reading-who"><div><b>${U.esc(email.from)}</b> <span class="muted">${U.esc(email.time)}</span></div><div class="muted">to me · ${U.esc(email.org)}</div></div>
+            <button class="m-icon-btn" data-act="open-draft" data-id="${email.id}" aria-label="Reply">${Icon.svg('reply')}</button></div>
+          ${task?.due ? `<div class="due-banner">${Icon.svg('alarm', 18)}<span>${task.reminder ? 'Reminder' : 'Due'}: ${U.esc(Domain.dueLabel(task.due))}</span></div>` : ''}
+          ${live ? `<div class="m-assist-card"><div class="m-assist-kicker">${Icon.svg('spark', 18)}Priority Assistant suggests</div>
+            <b>${U.esc(email.suggest.label)}</b><div class="muted">${U.esc(email.suggest.why)}</div>
+            <button class="btn btn-tonal" data-act="m-suggest-sheet" data-id="${email.id}">See options</button></div>` : ''}
+          <div class="email-card m-mail-body">${paragraphs}</div>
         </div>
         <div class="m-actions">
-          ${email.phone ? `<button class="btn btn-danger wide" data-act="m-call" data-id="${email.id}">📞 Call ${U.esc(U.first(email.from))}</button>` : ''}
-          <div class="btn-row two">
-            <button class="btn" data-act="open-voice" data-id="${email.id}" data-tour="m-voice">🎙 Voice reply</button>
-            <button class="btn${done ? ' btn-ok' : ''}" data-act="m-toggle-task" data-id="${email.id}" data-stay="1">${done ? '✓ Done' : 'Mark done'}</button>
-          </div>
-          <div class="btn-row two">
-            <button class="btn btn-ghost" data-act="open-draft" data-id="${email.id}">${email.draft ? 'Review drafted reply' : 'Write reply'}</button>
-            <button class="btn btn-ghost" data-act="open-remind" data-id="${email.id}">Remind me</button>
-          </div>
+          ${email.phone ? `<button class="btn btn-call" data-act="m-call" data-id="${email.id}">${Icon.svg('call', 18)}Call ${U.esc(U.first(email.from))}</button>` : ''}
+          <button class="btn" data-act="open-voice" data-id="${email.id}" data-tour="m-voice">${Icon.svg('mic', 18)}Voice reply</button>
+          <button class="btn" data-act="open-draft" data-id="${email.id}">${Icon.svg('reply', 18)}${email.draft ? 'Review draft' : 'Reply'}</button>
+          <button class="btn" data-act="open-remind" data-id="${email.id}">${Icon.svg('alarm', 18)}Remind me</button>
+          <button class="btn${done ? ' btn-ok' : ''}" data-act="m-toggle-task" data-id="${email.id}" data-stay="1">${Icon.svg('check', 18)}${done ? 'Done' : 'Mark done'}</button>
         </div>`;
     },
   },
 
   more: {
     render() {
-      const items = [['organize', '⇅', 'Swipe organizer', 'Four directions, four actions'], ['workload', '▤', 'Folders + workload', 'Auto-sorted, easy to read'], ['summary', '✎', 'Daily summary + chat', 'Ask about today\'s email'], ['desktop', '▭', 'Open desktop view', 'The Gmail extension screen']];
+      const items = [['organize', 'organize', 'Swipe organizer', 'Four directions, four actions'], ['workload', 'workload', 'Folders + workload', 'Auto-sorted, easy to read'], ['summary', 'summary', 'Daily summary + chat', 'Ask about today\'s email'], ['desktop', 'desktop', 'Open desktop view', 'The Gmail extension screen']];
       return `${Mobile.header('More')}
-        <div class="m-scroll"><div class="more-list">${items.map(([view, icon, title, sub]) => `<button class="more-item" data-act="m-go" data-to="${view === 'desktop' ? 'desktop' : `mobile/${view}`}"><span class="more-icon">${icon}</span><span><b>${title}</b><span class="muted">${sub}</span></span><span class="chev">›</span></button>`).join('')}
-        <button class="more-item" data-act="open-tour"><span class="more-icon">?</span><span><b>Show the guided tour</b><span class="muted">Quick hints for this screen</span></span><span class="chev">›</span></button></div></div>`;
+        <div class="m-scroll"><div class="more-list">${items.map(([view, icon, title, sub]) => `<button class="more-item" data-act="m-go" data-to="${view === 'desktop' ? 'desktop' : `mobile/${view}`}"><span class="more-icon">${Icon.svg(icon)}</span><span><b>${title}</b><span class="muted">${sub}</span></span>${Icon.svg('chevron')}</button>`).join('')}
+        <button class="more-item" data-act="open-tour"><span class="more-icon">${Icon.svg('help')}</span><span><b>Show the guided tour</b><span class="muted">Quick hints for this screen</span></span>${Icon.svg('chevron')}</button></div></div>`;
     },
-  },
-
-  tabbar() {
-    const current = Mobile.tabFor(Router.current().view);
-    return Mobile.tabs.map(([key, label, icon, path]) => `<button class="tab${key === current ? ' active' : ''}" data-act="m-go" data-to="${path}"><span>${icon}</span><small>${label}</small></button>`).join('');
   },
 
   update() {
     const route = Router.current();
     if (route.screen !== 'mobile') return;
-    const viewKey = route.view || 'today';
+    const viewKey = route.view || 'inbox';
     const screen = Mobile.screens[viewKey] || Mobile[viewKey];
     const root = U.$('#phone-screen');
     Mobile.active?.cleanup?.();
     if (!screen || !screen.render) {
       U.fail(`The "${viewKey}" screen is missing.`, new Error(`no mobile screen ${viewKey}`));
-      root.innerHTML = Mobile.today.render();
+      root.innerHTML = Mobile.screens.inbox.render();
       Mobile.active = null;
     } else {
       const scroll = Mobile.lastKey === viewKey + route.id ? U.$('.m-scroll', root)?.scrollTop || 0 : 0;
@@ -106,8 +86,11 @@ const Mobile = {
       if (area) area.scrollTop = scroll;
       screen.mount?.(root, route);
     }
+    MobileChrome.watchFab(root);
     Mobile.lastKey = viewKey + route.id;
-    U.$('#phone-tabbar').innerHTML = Mobile.tabbar();
+    const nav = U.$('#phone-tabbar');
+    nav.innerHTML = MobileChrome.bottomNav(route);
+    nav.hidden = MobileChrome.hidesNav(viewKey);
   },
 
   callSheet(emailId) {
@@ -134,7 +117,7 @@ const Mobile = {
   install() {
     Actions.register({
       'm-go': (el) => Router.go(el.dataset.to),
-      'm-back': (el) => Router.go(el.dataset.to),
+      'm-back': (el) => Router.back(el.dataset.to),
       'm-open-task': (el) => { Domain.markRead(el.dataset.id); Router.go(`mobile/task/${el.dataset.id}`); },
       'm-toggle-task': (el) => {
         const id = el.dataset.id;
@@ -142,11 +125,7 @@ const Mobile = {
         Domain.setTaskDone(id, nowDone);
         if (!Domain.taskFor(id) && nowDone) U.toast('Marked done', 'ok');
       },
-      'm-record': () => {
-        const next = State.get().tasks.find((t) => !t.done);
-        if (!next) { U.toast('Nothing left to reply to. You are all caught up.', 'info'); return; }
-        VoiceReply.open(next.emailId);
-      },
+      'm-trash': (el) => { Domain.trash(el.dataset.id); U.toast('Deleted (simulated)', 'info'); Router.back('mobile'); },
       'm-call': (el) => Mobile.callSheet(el.dataset.id),
     });
     State.subscribe(Mobile.update);

@@ -10,11 +10,11 @@ Mobile.screens.organize = {
   render() {
     const queue = Mobile.screens.organize.queue();
     if (!queue.length) {
-      return `${Mobile.header('Organize', { eyebrow: 'ALL DONE', back: 'mobile/more' })}<div class="m-scroll"><div class="done-card"><div class="done-icon">✓</div><h2>Inbox sorted</h2><p class="muted">Every card was forwarded, answered, saved or deleted.</p>
+      return `${Mobile.header('Organize', { eyebrow: 'ALL DONE' })}<div class="m-scroll"><div class="done-card"><div class="done-icon">✓</div><h2>Inbox sorted</h2><p class="muted">Every card was forwarded, answered, saved or deleted.</p>
         <button class="btn" data-act="organize-restart">Sort again</button></div></div>`;
     }
     const email = Domain.email(queue[0]);
-    return `${Mobile.header('Organize', { eyebrow: `${queue.length} LEFT TO SORT`, back: 'mobile/more' })}
+    return `${Mobile.header('Organize', { eyebrow: `${queue.length} LEFT TO SORT` })}
       <div class="m-scroll no-pad">
         <div class="swipe-stage four-way" id="organize-stage">
           <div class="cue cue-up">▲ FORWARD</div><div class="cue cue-left">DELETE</div><div class="cue cue-right">REPLY</div><div class="cue cue-down">▼ SAVE</div>

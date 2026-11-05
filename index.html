@@ -11,6 +11,11 @@
   <link rel="stylesheet" href="css/sheets.css">
   <link rel="stylesheet" href="css/mobile.css">
   <link rel="stylesheet" href="css/screens.css">
+  <link rel="stylesheet" href="css/m-theme.css">
+  <link rel="stylesheet" href="css/m-chrome.css">
+  <link rel="stylesheet" href="css/m-inbox.css">
+  <link rel="stylesheet" href="css/m-sheets.css">
+  <link rel="stylesheet" href="css/m-phone.css">
 </head>
 <body data-screen="desktop">
   <header id="proto-bar" class="proto-bar">
@@ -18,7 +23,8 @@
     <nav id="proto-nav" aria-label="Prototype screens">
       <a href="#/desktop" data-nav="desktop">Desktop</a>
       <span class="nav-sep">Phone</span>
-      <a href="#/mobile" data-nav="today" class="phone-link">To-Do</a>
+      <a href="#/mobile" data-nav="inbox" class="phone-link">Inbox</a>
+      <a href="#/mobile/todo" data-nav="todo">To-Do</a>
       <a href="#/mobile/sort" data-nav="sort">Sort</a>
       <a href="#/mobile/listen" data-nav="listen">Listen</a>
       <a href="#/mobile/day" data-nav="day">Day</a>
@@ -55,6 +61,7 @@
         <div class="status-bar"><span>9:41</span><span>5G ▮▮▮</span></div>
         <div id="phone-screen" class="phone-screen"></div>
         <nav id="phone-tabbar" class="tabbar" aria-label="Phone tabs"></nav>
+        <div id="phone-drawer" class="m-drawer" aria-hidden="true"></div>
         <div id="phone-overlay" class="overlay-host"></div>
       </div>
     </div>
@@ -74,9 +81,16 @@
   <script src="js/forwardflow.js"></script>
   <script src="js/voice.js"></script>
   <script src="js/swipe.js"></script>
+  <script src="js/sheet-drag.js"></script>
   <script src="js/assistant.js"></script>
   <script src="js/desktop.js"></script>
+  <script src="js/mobile-icons.js"></script>
+  <script src="js/mobile-chrome.js"></script>
+  <script src="js/mobile-drawer.js"></script>
+  <script src="js/mobile-suggest-sheet.js"></script>
   <script src="js/mobile.js"></script>
+  <script src="js/mobile-inbox.js"></script>
+  <script src="js/mobile-todo.js"></script>
   <script src="js/mobile-sort.js"></script>
   <script src="js/mobile-listen.js"></script>
   <script src="js/mobile-day.js"></script>

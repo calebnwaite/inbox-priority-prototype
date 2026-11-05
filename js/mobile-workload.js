@@ -27,7 +27,7 @@ Mobile.screens.workload = {
     const grid = stats.map((st) => `<div class="stat-card"><span class="muted">${st.label}</span><b>${st.value}%</b><div class="meter${st.accent ? '' : ' dim'}"><span style="width:${st.value}%"></span></div></div>`).join('');
     const folders = Mobile.screens.workload.folderCounts();
     const max = Math.max(...folders.map((f) => f.count), 1);
-    return `${Mobile.header('Workload', { eyebrow: 'THIS WEEK', back: 'mobile/more' })}
+    return `${Mobile.header('Workload', { eyebrow: 'THIS WEEK' })}
       <div class="m-scroll"><div class="stat-cards">${grid}</div>
         <p class="workload-note">Project is coming in heavy. ${dueSoon} repl${dueSoon === 1 ? 'y is' : 'ies are'} due before Wednesday.</p>
         <div class="field-label">Auto-sorted folders</div>
