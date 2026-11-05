@@ -1,0 +1,47 @@
+/* Overlays: draft / forward / remind / voice / call sheets, and the guided tour. */
+.overlay-host { position: absolute; inset: 0; z-index: 100; pointer-events: none; }
+.overlay-host.open { pointer-events: auto; }
+.overlay-backdrop { position: absolute; inset: 0; background: rgba(16, 20, 28, .42); display: flex; align-items: center; justify-content: center; animation: fade-in .15s; }
+.sheet { background: #fff; border-radius: 18px; box-shadow: var(--shadow-lg); width: min(520px, calc(100% - 28px)); max-height: calc(100% - 40px); overflow-y: auto; padding: 18px 20px 16px; animation: pop-in .18s ease-out; }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop-in { from { transform: translateY(14px) scale(.98); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 17px; margin-bottom: 6px; }
+.sheet-meta { color: var(--muted); font-size: 13px; line-height: 1.5; margin-bottom: 10px; }
+.why { background: var(--accent-soft); color: #7a3a10; border-radius: 10px; padding: 9px 12px; font-size: 13px; margin-bottom: 10px; }
+.draft-body { background: #f6f7f9; border-radius: 12px; padding: 14px; line-height: 1.55; font-size: 14.5px; white-space: pre-wrap; border: 1px solid var(--line); }
+.draft-edit { width: 100%; border: 2px solid var(--accent); border-radius: 12px; padding: 12px; font: inherit; font-size: 14.5px; line-height: 1.5; resize: vertical; outline: none; }
+.sheet-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.sheet-actions .btn-primary { flex: 1; min-width: 150px; }
+.person-card { display: flex; gap: 12px; align-items: center; padding: 12px; background: #f6f7f9; border-radius: 12px; margin-bottom: 10px; }
+.person-card .muted { font-size: 12.5px; margin-top: 2px; }
+
+.remind-list { display: flex; flex-direction: column; gap: 8px; }
+.remind-option { display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid var(--line); border-radius: 12px; background: #fff; padding: 13px 14px; font-weight: 600; text-align: left; }
+.remind-option span:first-child { flex: 1; }
+.remind-option:hover { background: #f6f7f9; border-color: #cfd4dc; }
+.remind-option.suggested { border-color: #ffc9a8; background: #fffaf6; }
+.remind-custom .row { display: flex; gap: 8px; }
+.remind-custom select, .remind-custom input { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; font: inherit; background: #fff; }
+.remind-custom .btn { flex: 1; }
+
+.check-row { display: flex; gap: 8px; align-items: flex-start; font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+.voice-stage { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 10px 0 6px; }
+.waveform { display: flex; align-items: center; justify-content: center; gap: 3px; height: 54px; }
+.waveform i { display: block; width: 4px; height: 8px; border-radius: 3px; background: #d6dae1; transition: height .09s; }
+.voice-stage.listening .waveform i { background: var(--accent); }
+.mic-btn { width: 76px; height: 76px; border-radius: 50%; border: none; background: var(--accent); color: #fff; font-size: 30px; box-shadow: 0 6px 18px rgba(232, 89, 12, .4); }
+.voice-stage.listening .mic-btn { animation: pulse 1.2s infinite; background: #c2410c; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(232, 89, 12, .5); } 70% { box-shadow: 0 0 0 18px rgba(232, 89, 12, 0); } 100% { box-shadow: 0 0 0 0 rgba(232, 89, 12, 0); } }
+.voice-state { font-weight: 600; }
+.transcript { min-height: 64px; width: 100%; background: #f6f7f9; border-radius: 12px; padding: 12px; font-size: 15px; line-height: 1.5; color: var(--ink-2); }
+.transcript:empty::before { content: "Your words will appear here"; color: #a0a6b1; }
+
+.call-sheet { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 8px 0; }
+.call-state { font-weight: 600; color: var(--ok); margin: 6px 0 12px; }
+
+/* guided tour */
+#tour-layer { position: fixed; inset: 0; z-index: 500; pointer-events: none; }
+.tour-hole { position: fixed; border-radius: 12px; box-shadow: 0 0 0 9999px rgba(16, 20, 28, .55); border: 2px solid var(--accent); transition: all .2s; }
+.tour-card { position: fixed; width: 320px; max-width: calc(100vw - 24px); background: #fff; border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow-lg); pointer-events: auto; }
+.tour-card p { margin: 4px 0 12px; color: var(--ink-2); line-height: 1.45; }
+.tour-step { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .08em; margin-bottom: 2px; }

@@ -1,0 +1,51 @@
+/* Floating Priority Assistant panel (desktop). */
+.assistant { position: absolute; right: 18px; top: 66px; bottom: 16px; width: 366px; z-index: 20; display: flex; flex-direction: column; justify-content: flex-start; pointer-events: none; }
+.assistant > * { pointer-events: auto; }
+.assistant-panel { background: #fff; border-radius: 18px; box-shadow: var(--shadow-lg); border: 1px solid var(--line); display: flex; flex-direction: column; max-height: 100%; overflow: hidden; }
+.assistant-head { display: flex; align-items: center; gap: 10px; padding: 14px 14px 12px 18px; border-bottom: 1px solid var(--line); }
+.assistant-head .logo-spark { width: 32px; height: 32px; border-radius: 10px; background: var(--accent-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 17px; }
+.assistant-head > div { flex: 1; line-height: 1.25; }
+.assistant-body { padding: 14px 16px 6px; overflow-y: auto; flex: 1; }
+.assistant-foot { padding: 10px 16px 12px; border-top: 1px solid var(--line); background: #fafbfc; }
+.assistant-pill { position: absolute; right: 0; top: 0; background: var(--ink); color: #fff; border: none; border-radius: 999px; padding: 11px 18px; font-weight: 600; box-shadow: var(--shadow-lg); }
+
+.featured { background: linear-gradient(180deg, #fff7f1, #fff); border: 1px solid #ffd9c2; border-radius: 14px; padding: 14px; }
+.featured-title { font-size: 18px; font-weight: 700; line-height: 1.25; margin: 4px 0 6px; }
+.featured p { margin-bottom: 12px; font-size: 13px; }
+.featured .btn { padding: 8px 12px; }
+
+.next-list { display: flex; flex-direction: column; gap: 2px; }
+.next-row { display: flex; align-items: center; gap: 10px; padding: 9px 4px; border-bottom: 1px solid #f0f2f5; }
+.next-row:last-child { border-bottom: none; }
+.next-rank { width: 24px; height: 24px; border-radius: 50%; background: #eef0f3; color: var(--ink-2); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.next-main { flex: 1; min-width: 0; border: none; background: none; text-align: left; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.next-main b { font-size: 13.5px; font-weight: 600; line-height: 1.25; }
+.next-main .muted { font-size: 12px; }
+
+.confidence { margin: 16px 0 8px; padding: 12px; background: #f6f7f9; border-radius: 12px; }
+.conf-head { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 7px; }
+.meter, .progress { height: 8px; background: #e4e7ec; border-radius: 99px; overflow: hidden; margin-bottom: 7px; }
+.meter span, .progress span { display: block; height: 100%; background: linear-gradient(90deg, #f08a4b, var(--accent)); border-radius: 99px; transition: width .5s ease; }
+.why-list { margin: 8px 0 0; padding-left: 16px; font-size: 12px; color: var(--ink-2); display: grid; gap: 5px; }
+
+.switch-row { display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--ink-2); }
+.switch { width: 38px; height: 22px; border-radius: 99px; background: #c9ced6; border: none; padding: 2px; transition: background .15s; }
+.switch span { display: block; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .15s; box-shadow: 0 1px 2px rgba(0, 0, 0, .3); }
+.switch.on { background: var(--accent); }
+.switch.on span { transform: translateX(16px); }
+
+.learn-card { background: #f3f6ff; border: 1px solid #dfe6ff; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+.learn-card .progress { margin: 12px 0 6px; }
+.learn-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+.stat { background: #f6f7f9; border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; }
+.stat b { font-size: 22px; }
+.stat span { font-size: 12px; color: var(--muted); }
+.notes { margin: 0 0 14px; padding-left: 18px; color: var(--ink-2); line-height: 1.6; }
+
+@media (max-width: 1100px) {
+  .assistant { width: 340px; }
+}
+@media (max-width: 900px) {
+  .assistant { left: 10px; right: 10px; width: auto; top: auto; bottom: 10px; max-height: 55%; }
+}

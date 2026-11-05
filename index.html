@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="icon" href="data:,">
+  <title>Priority Assistant prototype (Group 11)</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/gmail.css">
+  <link rel="stylesheet" href="css/assistant.css">
+  <link rel="stylesheet" href="css/sheets.css">
+  <link rel="stylesheet" href="css/mobile.css">
+  <link rel="stylesheet" href="css/screens.css">
+</head>
+<body data-screen="desktop">
+  <header id="proto-bar" class="proto-bar">
+    <span class="proto-title"><span class="logo-spark">✦</span> Priority Assistant <small>prototype</small></span>
+    <nav id="proto-nav" aria-label="Prototype screens">
+      <a href="#/desktop" data-nav="desktop">Desktop</a>
+      <span class="nav-sep">Phone</span>
+      <a href="#/mobile" data-nav="today" class="phone-link">To-Do</a>
+      <a href="#/mobile/sort" data-nav="sort">Sort</a>
+      <a href="#/mobile/listen" data-nav="listen">Listen</a>
+      <a href="#/mobile/day" data-nav="day">Day</a>
+      <a href="#/mobile/organize" data-nav="organize">Organize</a>
+      <a href="#/mobile/workload" data-nav="workload">Workload</a>
+      <a href="#/mobile/summary" data-nav="summary">Summary</a>
+    </nav>
+    <span class="proto-tools">
+      <button class="btn btn-small" data-act="open-tour" aria-label="Show guided tour" title="Guided tour">?</button>
+      <button class="btn btn-small" data-act="reset-demo" title="Clear saved changes and restore the sample data">Reset demo</button>
+    </span>
+  </header>
+
+  <div id="screen-desktop" class="screen">
+    <div class="gmail with-panel">
+      <header class="gm-top">
+        <div class="gm-brand"><span class="menu">☰</span><span class="gm-logo">✉</span><span>Mail</span></div>
+        <label class="gm-search"><span aria-hidden="true">⌕</span><input id="gm-search" type="search" placeholder="Search mail" autocomplete="off" aria-label="Search mail"></label>
+        <div class="gm-right"><button class="ext-btn" data-act="panel-toggle" title="Priority Assistant (extension)" aria-label="Toggle Priority Assistant">✦</button><span class="avatar" style="width:32px;height:32px;background:#2F6F9F;font-size:13px">J</span></div>
+      </header>
+      <aside class="gm-side">
+        <button class="compose" data-act="compose">✎ Compose</button>
+        <nav id="gm-nav" aria-label="Mail folders"></nav>
+      </aside>
+      <main id="gm-main" class="gm-main"></main>
+    </div>
+    <div id="assistant" class="assistant"></div>
+    <div id="desktop-overlay" class="overlay-host"></div>
+  </div>
+
+  <div id="screen-mobile" class="screen" hidden>
+    <div class="phone-frame">
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>5G ▮▮▮</span></div>
+        <div id="phone-screen" class="phone-screen"></div>
+        <nav id="phone-tabbar" class="tabbar" aria-label="Phone tabs"></nav>
+        <div id="phone-overlay" class="overlay-host"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-host" aria-live="polite"></div>
+
+  <script src="js/util.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/domain.js"></script>
+  <script src="js/overlay.js"></script>
+  <script src="js/suggestions.js"></script>
+  <script src="js/remind.js"></script>
+  <script src="js/draftflow.js"></script>
+  <script src="js/forwardflow.js"></script>
+  <script src="js/voice.js"></script>
+  <script src="js/swipe.js"></script>
+  <script src="js/assistant.js"></script>
+  <script src="js/desktop.js"></script>
+  <script src="js/mobile.js"></script>
+  <script src="js/mobile-sort.js"></script>
+  <script src="js/mobile-listen.js"></script>
+  <script src="js/mobile-day.js"></script>
+  <script src="js/mobile-organize.js"></script>
+  <script src="js/mobile-workload.js"></script>
+  <script src="js/mobile-summary.js"></script>
+  <script src="js/tour.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
